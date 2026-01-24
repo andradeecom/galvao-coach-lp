@@ -123,7 +123,6 @@ export const POST: APIRoute = async ({ request }) => {
     await transporter.sendMail(emailData);
 
     const GHL_WEBHOOK = import.meta.env.GHL_WEBHOOK_URL;
-
     if (!GHL_WEBHOOK) {
       return new Response(
         JSON.stringify({
@@ -138,7 +137,7 @@ export const POST: APIRoute = async ({ request }) => {
         },
       );
     }
-
+    // Send data to GHL webhook
     const response = await fetch(GHL_WEBHOOK, {
       method: "POST",
       headers: {
