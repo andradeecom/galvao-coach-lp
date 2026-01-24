@@ -1,0 +1,48 @@
+---
+import BGteam from '@/assets/images/BGteam.astro';
+import ERSlogo from '@/assets/icons/ERSlogo.astro';
+
+function getCurrentYear() {
+    return new Date().getFullYear();
+}
+---
+
+<footer
+    class="mt-auto flex flex-col justify-center items-center py-12 px-8 bg-bgteam-primary-950"
+>
+    <a href="/" aria-label="Home">
+        <BGteam class="size-32" />
+    </a>
+    <div class="flex flex-col max-w-lg items-center text-center mb-6">
+        <ERSlogo class="size-24" />
+        <p>
+            Para efeitos do exercício da sua atividade, a ERS - Entidade
+            Reguladora da Saúde acredita a Bernardo Galvão Unipessoal LDA.
+            <a
+                href="/assets/Certificado-galvao.pdf"
+                target="_blank"
+                class="font-semibold mb-12 hover:underline">Clique aqui</a
+            > para ver a certidão.
+        </p>
+    </div>
+    <div class="flex gap-3 flex-wrap justify-center mb-4 px-8">
+        <a
+            class="link-hover"
+            href="/terms-and-conditions"
+            aria-label="Termos e Condições do serviço"
+            rel="nofollow"
+            target="_blank">Termos e Condições do serviço</a
+        >
+        <a
+            class="link-hover"
+            href="/privacy-policy"
+            aria-label="Poíticas de privacidade"
+            rel="nofollow"
+            target="_blank">Políticas de privacidade</a
+        >
+    </div>
+    <span class="px-8 text-center">
+        Copyright &copy; 2020 - {getCurrentYear()} | Bernardo Galvão Personal Trainer
+        & Online Coach
+    </span>
+</footer>

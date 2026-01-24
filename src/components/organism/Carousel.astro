@@ -1,0 +1,96 @@
+---
+import { Image } from 'astro:assets';
+
+import T1 from '@/assets/images/transforms/1.webp';
+import T2 from '@/assets/images/transforms/2.webp';
+import T3 from '@/assets/images/transforms/3.webp';
+import T4 from '@/assets/images/transforms/4.webp';
+import T5 from '@/assets/images/transforms/5.webp';
+import T6 from '@/assets/images/transforms/6.webp';
+import T7 from '@/assets/images/transforms/7.webp';
+import T8 from '@/assets/images/transforms/8.webp';
+import T9 from '@/assets/images/transforms/9.webp';
+import T10 from '@/assets/images/transforms/10.webp';
+import T11 from '@/assets/images/transforms/11.webp';
+import T12 from '@/assets/images/transforms/12.webp';
+import T13 from '@/assets/images/transforms/13.webp';
+import T14 from '@/assets/images/transforms/14.webp';
+import T15 from '@/assets/images/transforms/15.webp';
+import T16 from '@/assets/images/transforms/16.webp';
+import T17 from '@/assets/images/transforms/17.webp';
+import T18 from '@/assets/images/transforms/18.webp';
+import T19 from '@/assets/images/transforms/19.webp';
+import T20 from '@/assets/images/transforms/20.webp';
+import T21 from '@/assets/images/transforms/21.webp';
+import T22 from '@/assets/images/transforms/22.webp';
+import T23 from '@/assets/images/transforms/23.webp';
+import T24 from '@/assets/images/transforms/24.webp';
+
+const alt =
+    'foto de atleta antes e depois de passar pelo programa de transformação corporal';
+const IMAGES = [
+    { src: T1, alt },
+    { src: T2, alt },
+    { src: T3, alt },
+    { src: T4, alt },
+    { src: T5, alt },
+    { src: T6, alt },
+    { src: T7, alt },
+    { src: T8, alt },
+    { src: T9, alt },
+    { src: T10, alt },
+    { src: T11, alt },
+    { src: T12, alt },
+    { src: T13, alt },
+    { src: T14, alt },
+    { src: T15, alt },
+    { src: T16, alt },
+    { src: T17, alt },
+    { src: T18, alt },
+    { src: T19, alt },
+    { src: T20, alt },
+    { src: T21, alt },
+    { src: T22, alt },
+    { src: T23, alt },
+    { src: T24, alt },
+];
+---
+
+<div class="carousel p-4 max-w-full">
+    <div class="carousel-item gap-4">
+        {
+            IMAGES.map((image) => (
+                <Image
+                    src={image.src}
+                    class="carouselItem rounded-box size-[320px] lg:size-[400px]"
+                    alt={image.alt}
+                />
+            ))
+        }
+    </div>
+</div>
+
+<style>
+    .carouselItem {
+        view-timeline-name: --reveal;
+        animation-timeline: --reveal;
+
+        animation-name: show;
+        animation-fill-mode: both;
+        animation-range: entry 25% cover 50%;
+
+        animation-duration: 1ms; /* Firefox requires this to apply the animation */
+    }
+
+    @keyframes show {
+        from {
+            opacity: 0;
+            scale: 10%;
+        }
+
+        to {
+            opacity: 1;
+            scale: 100%;
+        }
+    }
+</style>

@@ -1,0 +1,10 @@
+---
+import Card from '@/components/molecule/Card.astro';
+import { appConfig } from '@/config/app-config';
+
+const { cardsTexts } = appConfig;
+---
+
+<div class="flex justify-around flex-wrap gap-6">
+    {cardsTexts.map((text) => <Card title={text.title} body={text.body} />)}
+</div>
