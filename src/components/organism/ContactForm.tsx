@@ -29,11 +29,7 @@ const schema = z.object({
 
 type ContactFormInputs = z.infer<typeof schema>;
 
-interface ContactFormProps {
-  siteKey: string;
-}
-
-const ContactForm = ({ siteKey }: ContactFormProps) => {
+const ContactForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState<{
     message: string | undefined;
@@ -73,27 +69,30 @@ const ContactForm = ({ siteKey }: ContactFormProps) => {
   ) => {
     setIsLoading(true);
     try {
-      if (!(window as any).grecaptcha.ready)
-        throw new Error("reCAPTCHA not loaded");
-      const recaptchaToken = await (window as any).grecaptcha.execute(siteKey, {
-        action: "submit",
-      });
-      const recaptchaResponse = await fetch("/api/recaptcha", {
+      const token =
+        (window as any).turnstile?.getResponse("#turnstile-widget") ?? null;
+
+      if (!token) throw new Error("Turnstile token not available");
+
+      const turnstileResponse = await fetch("/api/turnstile", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ recaptcha: recaptchaToken }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
       });
-      const recaptchaData = await recaptchaResponse.json();
-      if (recaptchaData.success) {
+      const turnstileData = await turnstileResponse.json();
+
+      if (turnstileData.success) {
         const response = await axios.post("/api/save-contact", data);
         if (response.status === 201) {
-          console.log("Formulário enviado com sucesso!");
           window.location.href = "/thank-you";
         } else alert("Erro ao enviar formulário!");
       } else {
-        alert("Erro na verificação do reCAPTCHA!");
+        (window as any).turnstile?.reset("#turnstile-widget");
+        setToast({
+          message:
+            "Verificação de segurança falhou. Por favor tenta novamente.",
+          type: "error",
+        });
       }
     } catch (error) {
       setToast({
