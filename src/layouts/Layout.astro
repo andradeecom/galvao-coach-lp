@@ -16,8 +16,7 @@ const { title, description } = Astro.props;
 
 /**
  * TODO:
- * - SEO
- * - insert FB tags, Google tags, etc.
+ * - SEOs
  */
 ---
 
@@ -30,11 +29,14 @@ const { title, description } = Astro.props;
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
+        <link rel="preconnect" href="https://challenges.cloudflare.com" />
         <MetaPixel />
         <GTM />
         <GTAG />
     </head>
-    <body class="bg-bgteam-dark text-bgteam-light flex flex-col min-h-screen">
+    <body
+        class="relative bg-bgteam-dark text-bgteam-light flex flex-col min-h-screen"
+    >
         <GTMNoScript />
         <MetaPixelNoScript />
         <slot />
@@ -57,6 +59,10 @@ const { title, description } = Astro.props;
     html {
         font-family: 'Exo Variable', system-ui, sans-serif;
         background: #13151a;
+        scrollbar-width: none;
+    }
+    html::-webkit-scrollbar {
+        display: none;
     }
     code {
         font-family:

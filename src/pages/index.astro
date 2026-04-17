@@ -8,7 +8,7 @@ import ContactForm from '@/components/organism/ContactForm';
 import Carousel from '@/components/organism/Carousel.astro';
 import Cards from '@/components/organism/Cards.astro';
 
-const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY;
 ---
 
 <Layout
@@ -50,7 +50,7 @@ const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
                     >
                         Deixa-nos o teu contacto e entra na lista de espera:
                     </h3>
-                    <ContactForm siteKey={RECAPTCHA_SITE_KEY} client:load />
+                    <ContactForm client:load />
                 </div>
             </div>
         </section>
@@ -89,13 +89,25 @@ const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
                     Para garantires uma das vagas limitadas no nosso programa,
                     preenche os dados abaixo:
                 </h3>
-                <ContactForm siteKey={RECAPTCHA_SITE_KEY} client:load />
+                <ContactForm client:load />
             </div>
         </section>
+        <div id="turnstile-widget" class="absolute bottom-0 right-4"></div>
         <script
             is:inline
-            type="text/javascript"
-            src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`}
-        ></script>
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onloadTurnstileCallback"
+            defer></script>
+        <script is:inline define:vars={{ TURNSTILE_SITE_KEY }}>
+            function onloadTurnstileCallback() {
+                turnstile.render('#turnstile-widget', {
+                    sitekey: TURNSTILE_SITE_KEY,
+                });
+            }
+            if (window.turnstile) {
+                onloadTurnstileCallback();
+            } else {
+                window.onloadTurnstileCallback = onloadTurnstileCallback;
+            }
+        </script>
     </main>
 </Layout>
