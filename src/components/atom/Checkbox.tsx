@@ -21,20 +21,20 @@ const Checkbox = (props: CheckboxProps) => {
     ...rest
   } = props;
   return (
-    <label className="label justify-start gap-4 mb-4">
+    <label className="flex items-center justify-start gap-4 mb-4 cursor-pointer">
       <input
         type="checkbox"
-        className="checkbox checkbox-primary"
+        className="size-6 shrink-0 cursor-pointer appearance-none rounded-lg border border-bgteam-primary-500 bg-bgteam-primary-100 checked:bg-bgteam-primary-500 checked:bg-[length:100%_100%] checked:bg-center checked:bg-no-repeat checked:bg-[image:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%223.5%208.5%206.5%2011.5%2012.5%204.5%22%2F%3E%3C%2Fsvg%3E')] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bgteam-primary-500"
         required={isRequired}
         {...register(name)}
         {...rest}
       />
-      {label && <span className="label-text">{label}</span>}
+      {label && <span className="text-sm">{label}</span>}
       {isLGPD && (
-        <span className="label-text">
+        <span className="text-sm">
           Aceito a{" "}
           <a
-            className="link"
+            className="underline hover:no-underline"
             aria-label="política de privacidade"
             href="/privacy-policy"
             target="_blank"

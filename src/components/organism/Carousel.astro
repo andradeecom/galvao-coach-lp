@@ -56,13 +56,15 @@ const IMAGES = [
 ];
 ---
 
-<div class="carousel p-4 max-w-full">
-    <div class="carousel-item gap-4">
+<div
+    class="inline-flex max-w-full snap-x snap-mandatory overflow-x-scroll scroll-smooth p-4 scrollbar-none [-ms-overflow-style:none]"
+>
+    <div class="flex flex-none gap-4 box-content">
         {
             IMAGES.map((image) => (
                 <Image
                     src={image.src}
-                    class="carouselItem rounded-box size-[320px] lg:size-[400px]"
+                    class="carouselItem shrink-0 snap-center rounded-2xl size-80 lg:size-100"
                     alt={image.alt}
                 />
             ))

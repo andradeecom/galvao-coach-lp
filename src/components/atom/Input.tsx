@@ -36,17 +36,21 @@ const Input = (props: InputProps) => {
   return (
     <div className="mb-4">
       <label
-        className={`input input-bordered input-primary flex items-center gap-2 text-bgteam-text ${error && "outline-bgteam-error outline-none active:focus:outline-bgteam-error"}`}
+        className={`flex h-12 items-center gap-2 rounded-lg border bg-bgteam-primary-100 px-4 text-base text-bgteam-text focus-within:outline-2 focus-within:outline-offset-2 ${
+          error
+            ? "border-bgteam-error focus-within:outline-bgteam-error"
+            : "border-bgteam-primary-500 focus-within:outline-bgteam-primary-500"
+        }`}
       >
-        {leftIcon && <span>{leftIcon}</span>}
+        {leftIcon && <span className="shrink-0">{leftIcon}</span>}
         <input
           type={type}
-          className="grow"
+          className="grow bg-transparent placeholder:text-bgteam-text/60 focus:outline-none"
           placeholder={placeholder}
           {...register(name)}
           {...rest}
         />
-        {rightIcon && <span>{rightIcon}</span>}
+        {rightIcon && <span className="shrink-0">{rightIcon}</span>}
       </label>
 
       {/* <label

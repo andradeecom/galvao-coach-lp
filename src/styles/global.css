@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+/* Brand palette, migrated from tailwind.config.mjs theme.extend.colors.
+   Tailwind 4 exposes these as bg-bgteam-*, text-bgteam-*, etc. */
+@theme {
+  --color-bgteam-transparent: transparent;
+  --color-bgteam-dark: #020617; /* slate-950 */
+  --color-bgteam-light: #f1f5f9; /* slate-100 */
+  --color-bgteam-text: #111e5a; /* neutral-950 */
+  --color-bgteam-error: #ef4444; /* red-500 */
+  --color-bgteam-success: #22c55e; /* green-500 */
+
+  --color-bgteam-primary-50: #edf5ff;
+  --color-bgteam-primary-100: #d7e7ff;
+  --color-bgteam-primary-200: #b9d6ff;
+  --color-bgteam-primary-300: #88bdff;
+  --color-bgteam-primary-400: #5099ff;
+  --color-bgteam-primary-500: #2871ff;
+  --color-bgteam-primary-600: #1350ff;
+  --color-bgteam-primary-700: #0a39eb;
+  --color-bgteam-primary-800: #0f2ebe;
+  --color-bgteam-primary-900: #132e95;
+  --color-bgteam-primary-950: #111e5a;
+
+  --color-bgteam-secondary-50: #f4f3ff;
+  --color-bgteam-secondary-100: #ebe9fe;
+  --color-bgteam-secondary-200: #d9d6fe;
+  --color-bgteam-secondary-300: #beb6fc;
+  --color-bgteam-secondary-400: #9d8cf9;
+  --color-bgteam-secondary-500: #7e5df5;
+  --color-bgteam-secondary-600: #6c3ceb;
+  --color-bgteam-secondary-700: #5d2ad7;
+  --color-bgteam-secondary-800: #4d22b3;
+  --color-bgteam-secondary-900: #411e94;
+  --color-bgteam-secondary-950: #261164;
+
+  /* Semantic aliases that replace the daisyUI theme tokens the markup used to
+     rely on (text-accent, bg-primary, ...). Values match the former daisyUI
+     theme block so the rendered colours stay the same. */
+  --color-primary: #2871ff;
+  --color-secondary: #7e5df5;
+  --color-accent: #88bdff;
+  --color-neutral: #111e5a;
+  --color-info: #5d2ad7;
+  --color-success: #22c55e; /* green-500 */
+  --color-warning: #eab308; /* yellow-500 */
+  --color-error: #ef4444; /* red-500 */
+}

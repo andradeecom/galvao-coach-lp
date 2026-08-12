@@ -143,9 +143,13 @@ const ContactForm = () => {
         <input type="hidden" {...register("utm_content")} />
         <input type="hidden" {...register("utm_source")} />
         <input type="hidden" {...register("utm_term")} />
-        <button className="btn btn-primary">
+        <button className="inline-flex h-12 min-h-12 shrink-0 cursor-pointer flex-wrap items-center justify-center gap-2 rounded-lg bg-bgteam-primary-500 px-4 text-center text-sm font-semibold text-bgteam-light transition-colors duration-200 hover:bg-bgteam-primary-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bgteam-primary-500 disabled:cursor-not-allowed disabled:opacity-60">
           {isLoading ? (
-            <span className="loading loading-spinner loading-sm"></span>
+            <span
+              role="status"
+              aria-label="A enviar"
+              className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+            ></span>
           ) : (
             <span id="button-text">Enviar</span>
           )}
