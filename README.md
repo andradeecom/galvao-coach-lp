@@ -2,14 +2,14 @@
 
 Landing page for Galvão Coach, a personal trainer offering individualized
 diet and training plans. The page collects leads through a contact form,
-stores them in Supabase, and notifies the team by email.
+saves them directly in GoHighLevel, and notifies the team by email.
 
 ## Stack
 
 - [Astro](https://astro.build) 7 (server output, deployed on Vercel)
 - React (interactive islands, e.g. the contact form)
 - Tailwind CSS 4 (utility classes only — no component library)
-- Supabase (contact storage)
+- GoHighLevel (contact storage via the Contacts API)
 - Nodemailer (email notifications on new leads)
 - Cloudflare Turnstile (bot protection on the contact form)
 - Cypress (e2e tests)
@@ -34,25 +34,24 @@ The dev server runs at `http://localhost:4321`.
 
 Create a `.env` file (not committed) with:
 
-| Variable | Purpose |
-| --- | --- |
-| `SUPABASE_URL` | Supabase project URL |
-| `SUPABASE_SECRET_KEY` | Supabase service key, used server-side to store contacts |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Nodemailer credentials for lead notification emails |
-| `TURNSTILE_SITE_KEY` | Cloudflare Turnstile site key (client-side widget) |
-| `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret key (server-side verification) |
-| `GHL_WEBHOOK_URL` | Webhook URL forwarding leads to GoHighLevel |
+| Variable                                           | Purpose                                                                    |
+| -------------------------------------------------- | -------------------------------------------------------------------------- |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Nodemailer credentials for lead notification emails                        |
+| `TURNSTILE_SITE_KEY`                               | Cloudflare Turnstile site key (client-side widget)                         |
+| `TURNSTILE_SECRET_KEY`                             | Cloudflare Turnstile secret key (server-side verification)                 |
+| `GHL_API_TOKEN`                                    | GoHighLevel Private Integration Token, used server-side to upsert contacts |
+| `GHL_LOCATION_ID`                                  | GoHighLevel sub-account (location) ID that owns the contacts               |
 
 ## Scripts
 
-| Command | Description |
-| --- | --- |
-| `pnpm dev` | Start the Astro dev server |
-| `pnpm build` | Type-check (`astro check`) and build for production |
-| `pnpm preview` | Preview the production build locally |
-| `pnpm format` | Format the codebase with Prettier |
-| `pnpm cypress:web` | Open Cypress in interactive mode |
-| `pnpm cypress:headless` | Run Cypress tests headlessly |
+| Command                 | Description                                         |
+| ----------------------- | --------------------------------------------------- |
+| `pnpm dev`              | Start the Astro dev server                          |
+| `pnpm build`            | Type-check (`astro check`) and build for production |
+| `pnpm preview`          | Preview the production build locally                |
+| `pnpm format`           | Format the codebase with Prettier                   |
+| `pnpm cypress:web`      | Open Cypress in interactive mode                    |
+| `pnpm cypress:headless` | Run Cypress tests headlessly                        |
 
 ## Structure
 
@@ -62,9 +61,10 @@ src/
 ├── components/   atom / molecule / organism component tiers
 ├── config/       Static content and app configuration
 ├── layouts/      Page layout(s)
+├── lib/          Server-side integrations (GoHighLevel API client)
 ├── pages/        Routes, including pages/api/ server endpoints
 │   └── api/
-│       ├── save-contact.ts   Stores a lead in Supabase and emails the team
+│       ├── save-contact.ts   Saves a lead in GoHighLevel and emails the team
 │       └── turnstile.ts      Verifies the Turnstile challenge response
 └── styles/       Global Tailwind stylesheet
 ```

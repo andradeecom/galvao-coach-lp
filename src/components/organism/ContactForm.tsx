@@ -29,11 +29,15 @@ const schema = z.object({
 
 type ContactFormInputs = z.infer<typeof schema>;
 
+const SUBMIT_ERROR_MESSAGE =
+  "Não foi possível enviar o teu contacto. Por favor tenta novamente ou escreve-nos para bernardo@galvaocoach.com";
+
 const ContactForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState<{
     message: string | undefined;
     type: "success" | "error";
+    duration?: number;
   } | null>(null);
 
   const {
@@ -82,10 +86,9 @@ const ContactForm = () => {
       const turnstileData = await turnstileResponse.json();
 
       if (turnstileData.success) {
-        const response = await axios.post("/api/save-contact", data);
-        if (response.status === 201) {
-          window.location.href = "/thank-you";
-        } else alert("Erro ao enviar formulário!");
+        // axios rejects on non-2xx, so a failed save lands in the catch below.
+        await axios.post("/api/save-contact", data);
+        window.location.href = "/thank-you";
       } else {
         (window as any).turnstile?.reset("#turnstile-widget");
         setToast({
@@ -95,12 +98,17 @@ const ContactForm = () => {
         });
       }
     } catch (error) {
+      // The lead was not saved. Tell them how to reach the coach directly so
+      // the contact is not simply lost.
       setToast({
-        message:
-          (error as AxiosError<{ error: string }>).response?.data.error ||
-          "Erro ao enviar formulário",
+        message: SUBMIT_ERROR_MESSAGE,
         type: "error",
+        duration: 10000,
       });
+      console.error(
+        "Contact form submission failed -->",
+        (error as AxiosError<{ error: string }>).response?.data ?? error,
+      );
     } finally {
       setIsLoading(false);
     }
@@ -108,7 +116,13 @@ const ContactForm = () => {
 
   return (
     <>
-      {toast && <Toast message={toast.message} type={toast.type} />}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          duration={toast.duration}
+        />
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
         <Input
           placeholder="John Doe"
