@@ -33,15 +33,15 @@ the lockfile. `pnpm-workspace.yaml` here holds `allowBuilds` /
 `minimumReleaseAgeExclude` (pnpm 10+ keys) and deliberately has no
 `packages:` field; older pnpm rejects it.
 
-Server-only vars (`SUPABASE_*`, `SMTP_*`, `TURNSTILE_SECRET_KEY`,
-`GHL_WEBHOOK_URL`) are read via `import.meta.env` in API routes.
+Server-only vars (`GHL_API_TOKEN`, `GHL_LOCATION_ID`, `SMTP_*`,
+`TURNSTILE_SECRET_KEY`) are read via `import.meta.env` in API routes.
 `TURNSTILE_SITE_KEY` is read in `index.astro` and passed to the client
 through `define:vars`.
 
-Note: `src/env.d.ts` is stale — it still declares recaptcha-era vars
-(`RECAPTCHA_SECRET_KEY`, `VITE_RECAPTCHA_SITE_KEY`,
-`SUPABASE_ANON_PUBLIC_KEY`) and omits the Turnstile/GHL vars the code
-actually reads, so those have no type safety.
+`src/env.d.ts` was rewritten alongside the GHL migration and now matches
+what the code reads. `.env` still carries unused `RECAPTCHA_*`, `FIREBASE_*`
+and `GHL_WEBHOOK_URL` values from earlier iterations — nothing reads them,
+and they are deliberately not declared in `env.d.ts`.
 
 ## Architecture
 
@@ -58,9 +58,32 @@ This spans several files and is the core of the app:
 2. On submit it reads a Turnstile token from the global `window.turnstile`,
    POSTs it to `/api/turnstile` for server-side verification, and only then
    POSTs the form to `/api/save-contact`.
-3. `api/save-contact.ts` inserts into the Supabase `contacts` table, emails
-   the coach via nodemailer, then forwards to the GoHighLevel webhook.
-   Any of those three failing returns 500; success redirects to `/thank-you`.
+3. `api/save-contact.ts` upserts the lead into GoHighLevel via
+   `src/lib/ghl.ts`, then emails the coach via nodemailer. GHL is the system
+   of record, so it is called **first** — if it fails the route returns 500
+   and no email goes out. Either step failing returns 500; success redirects
+   to `/thank-you`.
+
+`src/lib/ghl.ts` POSTs to `https://services.leadconnectorhq.com/contacts/upsert`
+with `Authorization: Bearer $GHL_API_TOKEN` and the required `Version:
+2021-07-28` header (the API rejects requests without it). Upsert — not
+create — so a repeat submission updates the existing contact instead of
+erroring on a duplicate; GHL matches on email/phone per the location's
+"Allow Duplicate Contact" setting. The form's single `name` field is split
+on the first space into `firstName` / `lastName`. UTMs go through as
+`customFields` keyed by `utm_*`, and **empty UTMs are omitted** so a later
+direct visit cannot blank out attribution captured on an earlier submission.
+Those `utm_*` custom fields must exist in the GHL location or they are
+silently dropped.
+
+On failure the form shows a toast pointing the visitor at
+bernardo@galvaocoach.com, held for 10s rather than the 3s default so the
+address stays readable.
+
+Supabase was removed entirely (dependency, `src/types/database.types.ts`,
+and env vars) — do not reintroduce it as a lead store. The older
+`GHL_WEBHOOK_URL` forwarding step was also dropped in favour of the
+authenticated API.
 
 Turnstile coupling worth knowing: `index.astro` renders **two**
 `<ContactForm client:load />` islands (hero and footer CTA) but only **one**
@@ -89,3 +112,8 @@ unconditionally rather than under a `[data-theme=...]` selector.
 scroll-driven reveal animation using `view-timeline-name` in a scoped
 `<style>` block. Astro inlines that scoped CSS into the HTML rather than the
 external stylesheet, so grepping the built `.css` for it will come up empty.
+
+## Git
+
+Do not commit or push without asking for explicit permission first. Staging
+and showing a diff is fine; creating the commit is not.
