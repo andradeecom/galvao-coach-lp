@@ -10,6 +10,8 @@ interface ImportMetaEnv {
   readonly SMTP_PORT: string;
   readonly SMTP_USER: string;
   readonly SMTP_PASS: string;
+  readonly TURNSTILE_SITE_KEY: string;
+  readonly TURNSTILE_SECRET_KEY: string;
 }
 
 interface ImportMeta {
