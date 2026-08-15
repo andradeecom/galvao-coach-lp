@@ -125,6 +125,7 @@ const ContactForm = () => {
       )}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
         <Input
+          label="Nome"
           placeholder="Joana Santos"
           name="name"
           register={register}
@@ -132,15 +133,19 @@ const ContactForm = () => {
           leftIcon={<User className="size-5 text-bgteam-primary-500" />}
         />
         <Input
+          label="Email"
           placeholder="joana@santos.pt"
           name="email"
+          type="email"
           register={register}
           error={errors.email}
           leftIcon={<Mail className="size-5 text-bgteam-primary-500" />}
         />
         <Input
+          label="Telefone"
           placeholder="912 345 678"
           name="phone"
+          type="tel"
           register={register}
           error={errors.phone}
           leftIcon={<PhoneCall className="size-5 text-bgteam-primary-500" />}
