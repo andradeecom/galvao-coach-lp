@@ -39,9 +39,7 @@ Server-only vars (`GHL_API_TOKEN`, `GHL_LOCATION_ID`, `SMTP_*`,
 through `define:vars`.
 
 `src/env.d.ts` was rewritten alongside the GHL migration and now matches
-what the code reads. `.env` still carries unused `RECAPTCHA_*`, `FIREBASE_*`
-and `GHL_WEBHOOK_URL` values from earlier iterations — nothing reads them,
-and they are deliberately not declared in `env.d.ts`.
+what the code reads.
 
 ## Architecture
 
