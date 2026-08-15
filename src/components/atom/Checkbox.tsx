@@ -40,6 +40,7 @@ const Checkbox = (props: CheckboxProps) => {
             aria-label="política de privacidade"
             href="/privacy-policy"
             target="_blank"
+            rel="noopener noreferrer"
           >
             política de privacidade
           </a>{" "}
