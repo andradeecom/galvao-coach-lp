@@ -125,21 +125,21 @@ const ContactForm = () => {
       )}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
         <Input
-          placeholder="John Doe"
+          placeholder="Joana Santos"
           name="name"
           register={register}
           error={errors.name}
           leftIcon={<User className="size-5 text-bgteam-primary-500" />}
         />
         <Input
-          placeholder="Email"
+          placeholder="joana@santos.pt"
           name="email"
           register={register}
           error={errors.email}
           leftIcon={<Mail className="size-5 text-bgteam-primary-500" />}
         />
         <Input
-          placeholder="Phone"
+          placeholder="912 345 678"
           name="phone"
           register={register}
           error={errors.phone}
@@ -157,7 +157,13 @@ const ContactForm = () => {
         <input type="hidden" {...register("utm_content")} />
         <input type="hidden" {...register("utm_source")} />
         <input type="hidden" {...register("utm_term")} />
-        <button className="inline-flex h-12 min-h-12 shrink-0 cursor-pointer flex-wrap items-center justify-center gap-2 rounded-lg bg-bgteam-primary-500 px-4 text-center text-sm font-semibold text-bgteam-light transition-colors duration-200 hover:bg-bgteam-primary-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bgteam-primary-500 disabled:cursor-not-allowed disabled:opacity-60">
+        {/* Submit button */}
+        <button
+          type="submit"
+          disabled={isLoading}
+          aria-busy={isLoading}
+          className="inline-flex h-12 min-h-12 shrink-0 cursor-pointer flex-wrap items-center justify-center gap-2 rounded-lg bg-bgteam-primary-600 px-4 text-center text-sm font-semibold text-bgteam-light transition-colors duration-200 hover:bg-bgteam-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bgteam-primary-500 disabled:cursor-not-allowed disabled:opacity-60"
+        >
           {isLoading ? (
             <span
               role="status"

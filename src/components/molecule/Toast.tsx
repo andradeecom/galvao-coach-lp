@@ -21,8 +21,10 @@ const Toast = ({ message, type, duration = 3000 }: ToastProps) => {
 
   return (
     <div
+      role="alert"
+      aria-live="assertive"
       className={`min-w-[300px]  fixed top-4 sm:right-4 sm:translate-x-0 right-1/2 translate-x-1/2 p-4 rounded-lg shadow-lg text-white ${
-        type === "success" ? "bg-green-500" : "bg-red-500"
+        type === "success" ? "bg-green-700" : "bg-red-600"
       }`}
     >
       {message}

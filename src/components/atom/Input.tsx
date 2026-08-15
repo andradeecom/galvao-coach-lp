@@ -47,6 +47,8 @@ const Input = (props: InputProps) => {
           type={type}
           className="grow bg-transparent placeholder:text-bgteam-text/60 focus:outline-none"
           placeholder={placeholder}
+          aria-invalid={!!error}
+          aria-describedby={error ? `${name}-error` : undefined}
           {...register(name)}
           {...rest}
         />
@@ -73,7 +75,9 @@ const Input = (props: InputProps) => {
       {error && (
         <div className="flex gap-1 items-center mt-2">
           <AlertCircle className="text-bgteam-error" size={16} />
-          <p className="text-bgteam-error text-xs">{error.message}</p>
+          <p id={`${name}-error`} className="text-bgteam-error text-xs">
+            {error.message}
+          </p>
         </div>
       )}
     </div>
